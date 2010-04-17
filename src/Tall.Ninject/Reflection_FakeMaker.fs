@@ -28,7 +28,8 @@ type FakeMaker(moduleBuilder: ModuleBuilder) =
     let createClass (iface: Type) =
         let dropCase = String.mapi (fun i c -> if i = 0 then Char.ToLowerInvariant(c) else c)
 
-        let builder = moduleBuilder.DefineType("<Generated>" + iface.FullName.TrimStart([|'I'|]), TypeAttributes.Class ||| TypeAttributes.Public ||| TypeAttributes.Sealed)
+        let typeName = sprintf "<Generated>%s.%s" iface.Namespace (iface.Name.TrimStart([|'I'|]))
+        let builder = moduleBuilder.DefineType(typeName, TypeAttributes.Class ||| TypeAttributes.Public ||| TypeAttributes.Sealed)
 
         let properties = iface |> getAllProperties |> Seq.cache
         let createField (propertyInfo: PropertyInfo) =
