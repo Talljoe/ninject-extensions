@@ -1,3 +1,0 @@
-# Ninject Extensions
-
-Initial commit.
