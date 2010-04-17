@@ -37,7 +37,7 @@
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core" />
     <Reference Include="Ninject">
-      <HintPath>C:\source\ninject-extensions\external\Ninject\Ninject.dll</HintPath>
+      <HintPath>..\..\external\Ninject\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
