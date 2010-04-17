@@ -29,7 +29,7 @@ type FakeMakerBindingResolver(fakeMakerComponent: IFakeMakerComponent) =
                     yield typeMap.GetOrAdd(service, lazy(makeFunc)).Force()
             }
 
-    static member RegisterDefaults(components: IComponentContainer) =
+    static member RegisterDefaultsIn(components: IComponentContainer) =
         components.Add<IFakeMakerComponent, FakeMakerComponent>()
         components.Add<IBindingResolver, FakeMakerBindingResolver>()
 

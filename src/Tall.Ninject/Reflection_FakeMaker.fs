@@ -10,6 +10,7 @@ open System.Threading
 type IFakeMaker =
     abstract ImplementType: Type -> Type
     abstract CanFake: Type -> bool
+     
 
 type FakeMaker(moduleBuilder: ModuleBuilder) =
     let rec getAllForHierarchy (f: Type -> 'a seq) (t: Type) : 'a seq =
@@ -81,13 +82,14 @@ type FakeMaker(moduleBuilder: ModuleBuilder) =
         fields |> Seq.iteri (fun i f -> setField (i + 1) f)
         ilGenerator.Emit(OpCodes.Ret)
 
-    static member GetModuleBuilder() = 
+    static member CreateModuleBuilder() = 
         let name = new AssemblyName("FakeMaker")
         let assemblyBuilder = Thread.GetDomain().DefineDynamicAssembly(name, AssemblyBuilderAccess.RunAndCollect)
         assemblyBuilder.DefineDynamicModule("Implementation")
     
     interface IFakeMaker with
         member this.ImplementType(iface: Type) =
+            if not <| this.CanFake(iface) then failwith "Type contains unsupported features and can't be faked."
             if iface.IsInterface then createClass iface else iface
 
         member this.CanFake (iface: Type) = 
@@ -99,4 +101,4 @@ type FakeMaker(moduleBuilder: ModuleBuilder) =
     member this.ImplementType(iface) = (this :> IFakeMaker).ImplementType(iface)
     member this.CanFake(iface) = (this :> IFakeMaker).CanFake(iface)
 
-    new() = FakeMaker(FakeMaker.GetModuleBuilder())
+    new() = FakeMaker(FakeMaker.CreateModuleBuilder())
