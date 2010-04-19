@@ -6,6 +6,7 @@ See the "wiki":http://wiki.github.com/Talljoe/ninject-extensions/ for details.
 
 h2. Extensions:
 * FakeMakerBindingResolver - generates types to fulfill the requests for very simple interfaces.
+* SyntaxExtensions - Additions to the binding syntax to add additional features.
 
 h3. Requirements
 
