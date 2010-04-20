@@ -1,4 +1,7 @@
-﻿namespace Tall.Ninject.ConfigurationBased
+﻿// Copyright (c) Joseph Wasson
+// See accompanying LICENSE file for details
+
+namespace Tall.Ninject.ConfigurationBased
 
 open System
 open System.Globalization

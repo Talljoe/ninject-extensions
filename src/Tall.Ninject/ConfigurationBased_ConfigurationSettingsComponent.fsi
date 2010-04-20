@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Joseph Wasson
 // See accompanying LICENSE file for details
+
 namespace Tall.Ninject.ConfigurationBased
 
   /// Interface describing a component for retrieving configuration values.

@@ -1,4 +1,7 @@
-﻿module Tall.Utility
+﻿// Copyright (c) Joseph Wasson
+// See accompanying LICENSE file for details
+
+module Tall.Utility
 
 module Option =
     let fromTryParse (b, v) = if b then Some(v) else None

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Joseph Wasson
 // See accompanying LICENSE file for details
+
 namespace Tall.Ninject.Reflection
 
 open Ninject.Components

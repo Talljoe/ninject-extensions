@@ -1,4 +1,7 @@
-﻿namespace Tall.Ninject.Syntax
+﻿// Copyright (c) Joseph Wasson
+// See accompanying LICENSE file for details
+
+namespace Tall.Ninject.Syntax
 
   /// Extension to the Ninject binding syntax
   [<System.Runtime.CompilerServices.Extension ()>]
