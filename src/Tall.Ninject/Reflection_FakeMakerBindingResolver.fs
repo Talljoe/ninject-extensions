@@ -23,10 +23,10 @@ type FakeMakerBindingResolver(fakeMakerComponent: IFakeMakerComponent) =
             let notBound = Seq.isEmpty bindings.[service]
             seq {
                 if notBound && fakeMaker.CanFake(service) then
-                    let makeFunc = fakeMaker.ImplementType(service) |> bindType
+                    let makeFunc() = fakeMaker.ImplementType(service) |> bindType
                     // By making it lazy we only ever execute makeFunc once preventing
                     // the same type from being created a second time (causing exceptions)
-                    yield typeMap.GetOrAdd(service, lazy(makeFunc)).Force()
+                    yield typeMap.GetOrAdd(service, Lazy.Create(makeFunc)).Force()
             }
 
     static member RegisterDefaultsIn(components: IComponentContainer) =
