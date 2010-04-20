@@ -11,14 +11,21 @@ open Ninject.Planning.Bindings
 open Ninject.Planning.Bindings.Resolvers
 
 type ConfigurationBasedProvider(service: Type, converter: IStringConverterComponent, config: IConfigurationSettingsComponent) =
-    let resolve name = config.GetValue(name) |> Option.bind (fun value -> converter.Convert(service, value))
+    let valueMap = new System.Collections.Concurrent.ConcurrentDictionary<string, obj option>()
+    let resolve name =
+        // GetOrAdd won't take a lock so the function may be called twice; that's fine in this case.
+        valueMap.GetOrAdd(name, config.GetValue >> Option.bind (fun v -> converter.Convert(service, v)))
 
     let satisfiesRequest (request: IRequest) =
-            match request.Target with | null -> false | t -> resolve t.Name |> Option.isSome
+            // Yes, we have to do a full resolve in order to know if the binding matches.
+            request.Target 
+            |> Option.valueToOption
+            |> Option.map (fun t -> resolve t.Name)
+            |> Option.isSome
 
     interface IProvider with
         member this.Type = service
-        member this.Create(context) = 
+        member this.Create(context) =
             if context.Request.Target = null then failwith "Can't create without a target."
             match resolve context.Request.Target.Name with
                 | None -> failwith "Can't create...did you check IBinding.Condition first?"
