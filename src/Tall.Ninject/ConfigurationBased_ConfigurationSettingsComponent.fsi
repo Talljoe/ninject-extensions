@@ -12,7 +12,7 @@ namespace Tall.Ninject.ConfigurationBased
       ///   Gets a value from the configuration settings.
       /// </summary>
       /// <param name="name">Name of the setting to retrieve.</param>
-      /// <returns><c>Some</c> if there is a value for the setting; otherwise <c>None</c>.
+      /// <returns><c>Some</c> if there is a value for the setting; otherwise <c>None</c>.</returns>
       abstract member GetValue : name:string -> string option
     end
 

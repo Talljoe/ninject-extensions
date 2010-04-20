@@ -15,7 +15,7 @@ type ConfigurationBasedProvider(service: Type, converter: IStringConverterCompon
     let valueMap = new System.Collections.Concurrent.ConcurrentDictionary<string, obj option>()
     let resolve name =
         // GetOrAdd won't take a lock so the function may be called twice; that's fine in this case.
-        valueMap.GetOrAdd(name, config.GetValue >> Option.bind (fun v -> converter.Convert(service, v)))
+        valueMap.GetOrAdd(name, config.GetValue >> Option.bind (fun v -> converter.Convert(v, service)))
 
     let satisfiesRequest (request: IRequest) =
             // Yes, we have to do a full resolve in order to know if the binding matches.

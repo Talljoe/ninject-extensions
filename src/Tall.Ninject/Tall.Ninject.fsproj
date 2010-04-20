@@ -44,6 +44,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utility.fsi" />
     <Compile Include="Utility.fs" />
     <Compile Include="Reflection_FakeMaker.fsi" />
     <Compile Include="Reflection_FakeMaker.fs" />
