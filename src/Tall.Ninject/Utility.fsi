@@ -18,3 +18,5 @@ module Tall.Utility
     val ofObj : 'a option -> obj option
   end
 
+  module Seq =
+    val headOrNone : 'a seq -> 'a option

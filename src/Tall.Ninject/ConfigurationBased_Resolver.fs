@@ -56,4 +56,15 @@ type ConfigurationBasedBindingResolver(converters: IEnumerable<IStringConverterC
         components.Add<IBindingResolver, ConfigurationBasedBindingResolver>();
         components.Add<IConfigurationSettingsComponent, AppSettingConfigurationSettingsComponent>();
         components.Add<IStringConverterComponent, StringToStringConverterComponent>();
-        components.Add<IStringConverterComponent, StringToIntConverterComponent>();
+        components.Add<IStringConverterComponent, StringToCharConverterComponent>();
+        components.Add<IStringConverterComponent, StringToInt16ConverterComponent>();
+        components.Add<IStringConverterComponent, StringToInt32ConverterComponent>();
+        components.Add<IStringConverterComponent, StringToInt64ConverterComponent>();
+        components.Add<IStringConverterComponent, StringToUInt16ConverterComponent>();
+        components.Add<IStringConverterComponent, StringToUInt32ConverterComponent>();
+        components.Add<IStringConverterComponent, StringToUInt64ConverterComponent>();
+        components.Add<IStringConverterComponent, StringToSByteConverterComponent>();
+        components.Add<IStringConverterComponent, StringToByteConverterComponent>();
+        components.Add<IStringConverterComponent, StringToDoubleConverterComponent>();
+        components.Add<IStringConverterComponent, StringToSingleConverterComponent>();
+        components.Add<IStringConverterComponent, StringToDecimalConverterComponent>();
