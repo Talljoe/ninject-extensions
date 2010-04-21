@@ -21,7 +21,7 @@ type ConfigurationBasedProvider(service: Type, converter: IStringConverterCompon
             // Yes, we have to do a full resolve in order to know if the binding matches.
             request.Target 
             |> Option.valueToOption
-            |> Option.map (fun t -> resolve t.Name)
+            |> Option.bind (fun t -> resolve t.Name)
             |> Option.isSome
 
     interface IProvider with
