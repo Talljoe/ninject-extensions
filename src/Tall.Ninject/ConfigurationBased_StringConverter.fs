@@ -45,13 +45,17 @@ type StringToEnumConverterComponent() =
             if value = null || not <| supports service then None
             else
                 // If only Enum.TryParse had a non-generic overload
-                let enumMap = Enum.GetValues(service).Cast<obj>()
-                             |> Seq.map (fun v -> (Enum.GetName(service, v), v))
-                             |> Map.ofSeq
+                let enumMap = Enum.GetValues(service)
+                                  .Cast<obj>()
+                                  .ToDictionary(
+                                        (fun v -> Enum.GetName(service, v)), 
+                                        (fun v -> v), 
+                                        StringComparer.OrdinalIgnoreCase)
 
                 value.Split([|','|], StringSplitOptions.RemoveEmptyEntries)
-                |> Seq.map (fun s -> Map.tryFind (s.Trim()) enumMap)
-                |> Seq.map (Option.map (fun o -> Convert.ToInt64(o, CultureInfo.InvariantCulture)))
+                |> Seq.map (enumMap.TryGetValue 
+                            >> Option.fromTryParse
+                            >> Option.map (fun o -> Convert.ToInt64(o, CultureInfo.InvariantCulture)))
                 |> Seq.fold (Option.combine (+)) (Some(0L))
                 |> Option.map (fun v -> Enum.ToObject(service, v))
                 |> Option.ofObj
