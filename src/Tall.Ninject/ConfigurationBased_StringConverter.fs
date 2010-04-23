@@ -6,6 +6,7 @@ namespace Tall.Ninject.ConfigurationBased
 open System
 open System.Globalization
 open System.ComponentModel
+open System.Linq
 open Tall.Utility
 open Ninject.Components
 
@@ -33,6 +34,28 @@ type StringToCharConverterComponent() =
         member this.Convert(value, service) = 
             if supports service && value.Length = 1 then Some(value.[0] :> obj) else None
 
+type StringToEnumConverterComponent() =
+    inherit NinjectComponent()
+
+    let supports (service:Type) = service.IsEnum
+
+    interface IStringConverterComponent with
+        member this.Supports(service) = supports service
+        member this.Convert(value, service) =
+            if value = null || not <| supports service then None
+            else
+                // If only Enum.TryParse had a non-generic overload
+                let enumMap = Enum.GetValues(service).Cast<obj>()
+                             |> Seq.map (fun v -> (Enum.GetName(service, v), v))
+                             |> Map.ofSeq
+
+                value.Split([|','|], StringSplitOptions.RemoveEmptyEntries)
+                |> Seq.map (fun s -> Map.tryFind (s.Trim()) enumMap)
+                |> Seq.map (Option.map (fun o -> Convert.ToInt64(o, CultureInfo.InvariantCulture)))
+                |> Seq.fold (Option.combine (+)) (Some(0L))
+                |> Option.map (fun v -> Enum.ToObject(service, v))
+                |> Option.ofObj
+
 [<AbstractClass>]
 type StringToNumberConverterComponent<'a>() =
     inherit NinjectComponent()
@@ -49,10 +72,10 @@ type StringToNumberConverterComponent<'a>() =
             if value = null || not <| supports service
                 then None 
                 else
-                    let tryParse service value = this.TryParse(service, value)
+                    let tryParse style = this.TryParse(value, style)
                     // This craziness tries each NumberStyle until we get a result
                     this.NumberStyles 
-                    |> Seq.map (tryParse value) // parse
+                    |> Seq.map tryParse // parse
                     |> Seq.filter Option.isSome // throw out "None"
                     |> Seq.headOrNone // get the first, if we can
                     |> Option.map Option.get // 'a option option -> 'a option

@@ -84,6 +84,16 @@ namespace Tall.Ninject.ConfigurationBased
       new : unit -> StringToCharConverterComponent
     end
 
+  /// Class that converts a string to an enumeration.
+  type StringToEnumConverterComponent =
+    class
+      inherit Ninject.Components.NinjectComponent
+      interface IStringConverterComponent
+
+      /// Initializes a new instance of StringToStringConverterComponent
+      new : unit -> StringToEnumConverterComponent
+    end
+
   /// Class that converts a string to signed byte.  Supports decimal and hexadecimal.
   type StringToSByteConverterComponent =
     class

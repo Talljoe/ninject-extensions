@@ -16,6 +16,13 @@ module Tall.Utility
 
     /// Converts an otion of 'a into an option of obj.
     val ofObj : 'a option -> obj option
+
+    /// Combines two options on:
+    ///  (None, None),
+    ///  (Some, None),
+    ///  (None, Some) -> None;
+    ///  (Some, Some) -> f o1 o2
+    val combine : f:('a -> 'b -> 'c) -> o1:'a option -> o2:'b option -> 'c option
   end
 
   module Seq =
