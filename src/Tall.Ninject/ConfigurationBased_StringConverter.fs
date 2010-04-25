@@ -60,6 +60,28 @@ type StringToEnumConverterComponent() =
                 |> Option.map (fun v -> Enum.ToObject(service, v))
                 |> Option.ofObj
 
+type StringToBoolConverterComponent() =
+    inherit NinjectComponent()
+
+    let supports (service:Type) = service = typeof<bool>
+
+    let parseString (s: string) = 
+        match s.ToUpperInvariant() with
+            | "TRUE" | "YES" -> Some(true)
+            | "FALSE" | "NO" -> Some(false)
+            | _ -> None
+
+    interface IStringConverterComponent with
+        member this.Supports(service) = supports service
+        member this.Convert(value, service) =
+            if value = null || not <| supports service then None
+            else
+                Int32.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture)
+                |> Option.fromTryParse
+                |> Option.map (not << ((=) 0))
+                |> Option.elseF (fun () -> parseString value)
+                |> Option.ofObj
+
 [<AbstractClass>]
 type StringToNumberConverterComponent<'a>() =
     inherit NinjectComponent()

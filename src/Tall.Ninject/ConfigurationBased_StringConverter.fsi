@@ -94,6 +94,16 @@ namespace Tall.Ninject.ConfigurationBased
       new : unit -> StringToEnumConverterComponent
     end
 
+  /// Class that converts a string to a boolean.
+  type StringToBoolConverterComponent =
+    class
+      inherit Ninject.Components.NinjectComponent
+      interface IStringConverterComponent
+
+      /// Initializes a new instance of StringToStringConverterComponent
+      new : unit -> StringToBoolConverterComponent
+    end
+
   /// Class that converts a string to signed byte.  Supports decimal and hexadecimal.
   type StringToSByteConverterComponent =
     class
