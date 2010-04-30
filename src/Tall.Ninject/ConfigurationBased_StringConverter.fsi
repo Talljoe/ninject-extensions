@@ -37,31 +37,17 @@ namespace Tall.Ninject.ConfigurationBased
       /// <returns><c>Some</c> indicating the new object if successful; otherwise <c>None</c>.</returns>
       abstract member TryParse : value:string * style:System.Globalization.NumberStyles 
                               -> 'a option
-
-      /// Gets the collection of NumberStyles to try.
-      abstract member NumberStyles : seq<System.Globalization.NumberStyles>
     end
 
-  /// Base class that converts a string to a signed integer
-  [<AbstractClass>]
-  type StringToSignedIntegerConverterComponent<'a> =
-    class 
-      inherit StringToNumberConverterComponent<'a>
-      new : unit -> StringToSignedIntegerConverterComponent<'a>
-
-      /// Gets the collection of NumberStyles to try.
-      override NumberStyles : seq<System.Globalization.NumberStyles>
-    end
-
-  /// Base class that converts a string to an unsigned integer
+  // Base clase for simple number conversions
   [<AbstractClassAttribute ()>]
-  type StringToUnsignedIntegerConverterComponent<'a> =
+  type StringToIntegerConverterComponent<'a> =
     class
       inherit StringToNumberConverterComponent<'a>
-      new : unit -> StringToUnsignedIntegerConverterComponent<'a>
+      interface IStringConverterComponent
 
-      /// Gets the collection of NumberStyles to try.
-      override NumberStyles : seq<System.Globalization.NumberStyles>
+      /// Initializes a new instance of StringToIntegerConverterComponent
+      new : unit -> StringToIntegerConverterComponent<'a>
     end
 
   /// Class that represents a null conversion.  The string is returned unchanged.
@@ -107,7 +93,7 @@ namespace Tall.Ninject.ConfigurationBased
   /// Class that converts a string to signed byte.  Supports decimal and hexadecimal.
   type StringToSByteConverterComponent =
     class
-      inherit StringToSignedIntegerConverterComponent<sbyte>
+      inherit StringToIntegerConverterComponent<sbyte>
 
       /// Initializes a new instance of StringToSByteConverterComponent
       new : unit -> StringToSByteConverterComponent
@@ -125,7 +111,7 @@ namespace Tall.Ninject.ConfigurationBased
   /// Class that converts a string to an int16.  Supports decimal and hexadecimal.
   type StringToInt16ConverterComponent =
     class
-      inherit StringToSignedIntegerConverterComponent<int16>
+      inherit StringToIntegerConverterComponent<int16>
 
       /// Initializes a new instance of StringToInt16ConverterComponent
       new : unit -> StringToInt16ConverterComponent
@@ -143,7 +129,7 @@ namespace Tall.Ninject.ConfigurationBased
   /// Class that converts a string to an int32.  Supports decimal and hexadecimal.
   type StringToInt32ConverterComponent =
     class
-      inherit StringToSignedIntegerConverterComponent<int>
+      inherit StringToIntegerConverterComponent<int>
 
       /// Initializes a new instance of StringToInt32ConverterComponent
       new : unit -> StringToInt32ConverterComponent
@@ -161,7 +147,7 @@ namespace Tall.Ninject.ConfigurationBased
   /// Class that converts a string to an 64-bit integer.  Supports decimal and hexadecimal.
   type StringToInt64ConverterComponent =
     class
-      inherit StringToSignedIntegerConverterComponent<int64>
+      inherit StringToIntegerConverterComponent<int64>
 
       /// Initializes a new instance of StringToInt64ConverterComponent
       new : unit -> StringToInt64ConverterComponent
@@ -178,7 +164,7 @@ namespace Tall.Ninject.ConfigurationBased
 
   type StringToByteConverterComponent =
     class
-      inherit StringToUnsignedIntegerConverterComponent<byte>
+      inherit StringToIntegerConverterComponent<byte>
 
       /// Initializes a new instance of StringToByteConverterComponent
       new : unit -> StringToByteConverterComponent
@@ -195,7 +181,7 @@ namespace Tall.Ninject.ConfigurationBased
 
   type StringToUInt16ConverterComponent =
     class
-      inherit StringToUnsignedIntegerConverterComponent<uint16>
+      inherit StringToIntegerConverterComponent<uint16>
 
       /// Initializes a new instance of StringToUInt16ConverterComponent
       new : unit -> StringToUInt16ConverterComponent
@@ -212,7 +198,7 @@ namespace Tall.Ninject.ConfigurationBased
 
   type StringToUInt32ConverterComponent =
     class
-      inherit StringToUnsignedIntegerConverterComponent<uint32>
+      inherit StringToIntegerConverterComponent<uint32>
 
       /// Initializes a new instance of StringToUInt32ConverterComponent
       new : unit -> StringToUInt32ConverterComponent
@@ -229,7 +215,7 @@ namespace Tall.Ninject.ConfigurationBased
 
   type StringToUInt64ConverterComponent =
     class
-      inherit StringToUnsignedIntegerConverterComponent<uint64>
+      inherit StringToIntegerConverterComponent<uint64>
 
       /// Initializes a new instance of StringToUInt64ConverterComponent
       new : unit -> StringToUInt64ConverterComponent
