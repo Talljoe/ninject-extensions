@@ -18,7 +18,7 @@ type FakeMakerBindingResolver(fakeMakerComponent: IFakeMakerComponent) =
         member this.Resolve(bindings, service) = 
             let bindType implementation = 
                 let provider = Ninject.Activation.Providers.StandardProvider.GetCreationCallback(implementation)
-                let binding = new Binding(service, ProviderCallback = provider, Target = BindingTarget.Type)
+                let binding = new Binding(service, ProviderCallback = provider, Target = BindingTarget.Type, IsImplicit = true)
                 binding :> IBinding
 
             let notBound = Seq.isEmpty bindings.[service]

@@ -37,6 +37,7 @@ type ConfigurationBasedProvider(service: Type, converter: IStringConverterCompon
         binding.Condition <- (fun r -> satisfiesRequest r)
         binding.ProviderCallback <- (fun _ -> this :> IProvider)
         binding.Target <- BindingTarget.Provider
+        binding.IsImplicit <- true
         binding
 
 type ConfigurationBasedBindingResolver(converters: IEnumerable<IStringConverterComponent>, config: IConfigurationSettingsComponent) =
