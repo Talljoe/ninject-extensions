@@ -8,7 +8,8 @@ namespace Tall.Ninject.Reflection
   type FakeMakerBindingResolver =
     class
       inherit Ninject.Components.NinjectComponent
-      interface Ninject.Planning.Bindings.Resolvers.IBindingResolver
+      interface Ninject.Planning.Bindings.Resolvers.IMissingBindingResolver
+
       /// <summary>
       ///   Initializes a new instance of FakeMakerBindingResolver
       /// </summary>

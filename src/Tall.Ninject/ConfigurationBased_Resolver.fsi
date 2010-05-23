@@ -7,7 +7,7 @@ namespace Tall.Ninject.ConfigurationBased
   type ConfigurationBasedBindingResolver =
     class
       inherit Ninject.Components.NinjectComponent
-      interface Ninject.Planning.Bindings.Resolvers.IBindingResolver
+      interface Ninject.Planning.Bindings.Resolvers.IMissingBindingResolver
 
       /// <summary>Initializes a new instance of the ConfigurationBasedBindingResolver class.</summary>
       /// <param name="converters">List of supported converters to use.</param>
